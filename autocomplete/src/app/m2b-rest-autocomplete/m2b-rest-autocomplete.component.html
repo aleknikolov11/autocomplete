@@ -1,0 +1,7 @@
+<div>
+  <input type="text" list="countryList" [(ngModel)]="country" (ngModelChange)="changed()" placeholder="Country">
+  <datalist id="countryList">
+    <option *ngFor="let option of countryOptions" [value]="option.name">
+  </datalist>
+</div>
+<p>{{country}}</p>

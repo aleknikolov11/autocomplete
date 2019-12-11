@@ -1,0 +1,8 @@
+<form [formGroup]='form' (ngSubmit)="submit()">
+  <input type="text" formControlName="name" placeholder="Name..."><br/>
+  <input type="text" formControlName="email" placeholder="Email..."><br/>
+  <app-m2b-rest-autocomplete formControlName="country"></app-m2b-rest-autocomplete>
+  <button type="submit">Submit</button>
+</form>
+
+<p *ngIf="data"> {{data | json }} </p>
