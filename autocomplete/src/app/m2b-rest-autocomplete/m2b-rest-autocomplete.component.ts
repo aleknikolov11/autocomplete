@@ -13,33 +13,67 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
   }]
 })
 export class M2bRestAutocompleteComponent implements ControlValueAccessor, OnInit {
-  public country;
-  public countryOptions;
-  public errMsg;
+  /**
+   * Value of Country input fields
+   * @var string country
+   */
+  private country: string;
 
-  get value() {
+  /**
+   * List of countryOptions for dropdown
+   * @var object|null countryOptions
+   */
+  private countryOptions: object|null;
+
+  /**
+   * Error message
+   * @var string errMsg
+   */
+  private errMsg;
+
+  /**
+   * Get value of Custom Form Control
+   */
+  public get value() {
     return this.country;
   }
 
-  set value(newValue) {
+  /**
+   * Set value of Custom Form Control
+   */
+  public set value(newValue) {
     this.country = newValue;
     this.onChange(newValue);
   }
   
-  constructor(private http: HttpClient) {}
+  /**
+   * Constructor for M2bRestAutocompleteComponent
+   */
+  public constructor(private http: HttpClient) {}
 
-  ngOnInit() {}
+  /**
+   * From OnInit interface
+   */
+  public ngOnInit() {}
 
-  onChange: any = () => {};
+  private onChange: any = () => {};
 
-  writeValue(newValue) {
+  /**
+   * From ControlValueAccessor interface
+   */
+  public writeValue(newValue) {
     if(newValue){
       this.value = newValue;
       //this.onChange(newValue);
     }
   }
 
-  changed() {
+  /**
+   * Called on change in Country input field.
+   * Updates Custom Form Control value and posts Http request to retreive
+   * country names for autocomplete dropdown list.
+   */
+  private changed() {
     this.value = this.country;
     this.http.get("https://restcountries.eu/rest/v2/name/" + this.country + '?fields=name;code').subscribe((response) => {
       this.countryOptions = response;
@@ -49,9 +83,15 @@ export class M2bRestAutocompleteComponent implements ControlValueAccessor, OnIni
     })
   }
 
-  registerOnChange(fn){
+  /**
+   * From ControlValueAccessor interface
+   */
+  public registerOnChange(fn){
     this.onChange = fn;
   }
 
-  registerOnTouched() {}
+  /**
+   * From ControlValueAccessor interface
+   */
+  public registerOnTouched() {}
 }
